@@ -22,7 +22,11 @@
             <a class="nav-link" href="{{ route('houses.create') }}">Tambah Rumah</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
+            {{-- <a class="nav-link" href="#">Logout</a> --}}
+            <form action="{{ route('logout') }}" method="POST">
+              @csrf
+              <button type="submit" class="nav-link btn btn-link">Logout</button>
+          </form>
           </li>
         </ul>
       </div>
