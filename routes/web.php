@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+
 // Login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
@@ -37,6 +35,7 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 // Route::delete('/houses/{id}', [HouseController::class, 'destroy'])->name('houses.destroy');
 // Protected Routes
 Route::middleware('auth')->group(function () {
+    Route::get('/', function () {return view('index'); });
     Route::get('/houses', [HouseController::class, 'index'])->name('houses.index');
     Route::get('/houses/create', [HouseController::class, 'create'])->name('houses.create');
     Route::post('/houses', [HouseController::class, 'store'])->name('houses.store');
