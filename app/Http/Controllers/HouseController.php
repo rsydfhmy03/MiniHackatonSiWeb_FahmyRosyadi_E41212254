@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\House;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HouseController extends Controller
 {
@@ -91,7 +92,28 @@ class HouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    $request->validate([
+        'type' => 'required',
+        'price' => 'required|numeric',
+        'status' => 'required',
+        'photo' => 'nullable|image|max:2048',
+        'keterangan' => 'required',
+    ]);
+
+    $house = House::find($id);
+
+    if ($request->hasFile('photo')) {
+        $imagePath = $request->file('photo')->store('photos', 'public');
+        $house->photo = $imagePath;
+    }
+
+    $house->type = $request->type;
+    $house->price = $request->price;
+    $house->status = $request->status;
+    $house->keterangan = $request->keterangan;
+    $house->save();
+
+    return redirect()->route('houses.index')->with('success', 'Rumah berhasil diupdate');
     }
 
     /**
@@ -103,5 +125,17 @@ class HouseController extends Controller
     public function destroy($id)
     {
         //
+        $house = House::find($id);
+    
+        if (!$house) {
+            return redirect()->route('houses.index')->with('error', 'Rumah tidak ditemukan');
+        }
+    
+        // Menghapus foto rumah dari penyimpanan
+        Storage::disk('public')->delete($house->photo);
+    
+        $house->delete();
+    
+        return redirect()->route('houses.index')->with('success', 'Rumah berhasil dihapus');
     }
 }

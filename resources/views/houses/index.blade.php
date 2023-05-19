@@ -16,10 +16,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Dashboard</a>
+            <a class="nav-link" href="{{ route('houses.index') }}">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Tambah Rumah</a>
+            <a class="nav-link" href="{{ route('houses.create') }}">Tambah Rumah</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Logout</a>
@@ -35,10 +35,12 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">Id</th>
           <th scope="col">Type</th>
           <th scope="col">Price</th>
           <th scope="col">Status</th>
+          <th scope="col">Keterangan</th>
+          <th scope="col">Foto Rumah</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -51,9 +53,18 @@
           <td>{{ $house->type }}</td>
           <td>{{ $house->price }}</td>
           <td>{{ $house->status }}</td>
+          <td>{{ $house->keterangan }}</td>
+          {{-- <td>{{ $house->photo }}</td> --}}
           <td>
-            <a href="#" class="btn btn-primary btn-sm">Edit</a>
-            <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+            <img src="{{ asset('storage/' . $house->photo) }}" alt="Foto Rumah" style="width: 100px;">
+          </td>
+          <td>
+            <a href="{{ route('houses.edit', $house->id) }}" class="btn btn-primary btn-sm">Edit</a>
+            <form action="{{ route('houses.destroy', $house->id) }}" method="POST">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+            </form>
           </td>
         </tr>
         @endforeach
