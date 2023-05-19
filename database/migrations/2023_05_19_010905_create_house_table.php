@@ -15,7 +15,7 @@ class CreateHouseTable extends Migration
     {
         Schema::create('house', function (Blueprint $table) {
             $table->id();
-            $table->string('type',10);
+            $table->string('type');
             $table->integer('price');
             $table->enum('status',['Tersedia','Tidak Tersedia'])->default('Tersedia');
             $table->string('photo');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HouseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
+Route::get('/houses', [HouseController::class, 'index'])->name('houses.index');
+Route::get('/houses/create', [HouseController::class, 'create'])->name('houses.create');
+Route::post('/houses', [HouseController::class, 'store'])->name('houses.store');
+Route::get('/houses/{id}/edit', [HouseController::class, 'edit'])->name('houses.edit');
+Route::put('/houses/{id}', [HouseController::class, 'update'])->name('houses.update');
+Route::delete('/houses/{id}', [HouseController::class, 'destroy'])->name('houses.destroy');
